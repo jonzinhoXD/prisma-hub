@@ -1,0 +1,676 @@
+﻿==========================================================================================
+ PRISMA HUB CMD - v0.1 NOVA
+ Guia completo: o que é, como usar e o que cada opção faz
+ Desenvolvedor: jonzinhoXD  |  TikTok: @surejonn (https://www.tiktok.com/@surejonn)
+==========================================================================================
+
+ÍNDICE
+  1. O que é o PRISMA HUB CMD
+  2. Requisitos e como abrir
+  3. Aviso importante antes de usar
+  4. Onde o programa guarda seus arquivos
+  5. A tela principal
+  6. Opção 3 - BACKUP (leia primeiro)
+  7. Opção 1 - OTIMIZAÇÃO (detalhada, etapa por etapa)
+  8. Reaplicação automática ao ligar o PC
+  9. Opção 2 - LIMPAR MEMÓRIA (limpeza de disco)
+ 10. Opção 4 - TUTORIAIS
+ 11. Opção 5 - REDES SOCIAIS
+ 12. Opção 6 - DESATIVAR (desfazer)
+ 13. Opção 0 - SAIR
+ 14. O que o programa NUNCA altera
+ 15. Proteções automáticas do programa
+ 16. Efeitos colaterais que você pode notar
+ 17. Resultados: o que esperar (e o que não prometo)
+ 18. Logs: onde ficam e como ler
+ 19. Solução de problemas
+ 20. Como remover tudo
+ 21. Glossário
+ 22. Créditos
+
+
+==========================================================================================
+1. O QUE É O PRISMA HUB CMD
+==========================================================================================
+É um otimizador para Windows 10 e Windows 11 que roda em uma janela de linha de comando
+(CMD) com visual neon vermelho. Ele foi feito para:
+
+  - reduzir a quantidade de processos do Windows;
+  - reduzir o consumo de memória RAM;
+  - aumentar o FPS e a estabilidade em jogos;
+  - liberar espaço em disco com uma limpeza segura;
+  - deixar você no controle: tudo é mostrado antes, tudo tem backup e tudo pode ser
+    desfeito.
+
+O programa é um único arquivo: Prisma-Hub-CMD.bat. Dentro dele ficam a interface e os
+módulos em PowerShell que fazem o trabalho. Não instala nada e não precisa de internet.
+
+
+==========================================================================================
+2. REQUISITOS E COMO ABRIR
+==========================================================================================
+  - Windows 10 (1809 ou mais novo) ou Windows 11.
+  - Conta de Administrador. O programa pede a permissão (UAC) sozinho e se reabre em uma
+    janela de console clássica de 140 colunas por 40 linhas.
+  - PowerShell 5.1 (já vem no Windows).
+
+Como abrir: dê dois cliques em Prisma-Hub-CMD.bat e aceite o aviso do Windows.
+No menu, basta apertar a TECLA do número da opção. Não precisa apertar Enter.
+
+Alguns itens só existem no Windows 11 (Widgets, Copilot, ícone de Chat). Onde o item não
+existe, o programa simplesmente ignora, sem erro.
+
+
+==========================================================================================
+3. AVISO IMPORTANTE ANTES DE USAR
+==========================================================================================
+  * Esta versão foi escrita e revisada de forma estática. Ela ainda precisa ser testada
+    em um Windows de verdade. Teste primeiro em uma máquina virtual, ou crie o backup
+    (opção 3) e leve em conta que cada otimização pode ser desfeita na opção 6.
+  * Não existe garantia de um número exato de processos a menos ou de FPS a mais. O
+    resultado depende do seu PC e de como você o usa. O programa mede e mostra os
+    números reais (veja a seção 17).
+  * NÃO abra e salve o arquivo .bat no Bloco de Notas: os acentos e as molduras da tela
+    quebram. O arquivo usa a codificação OEM 850. Para editar, use um editor que permita
+    escolher essa codificação.
+  * Se o computador for de empresa (com regras de TI), não use. Políticas da empresa e
+    este programa podem entrar em conflito.
+
+
+==========================================================================================
+4. ONDE O PROGRAMA GUARDA SEUS ARQUIVOS
+==========================================================================================
+Pasta principal:  C:\ProgramData\PrismaHub\
+
+  backup\   Backup inicial único: ponto de restauração registrado, arquivos .reg com as
+            chaves do registro, e listas (serviços, plano de energia original, apps
+            instalados, itens de inicialização, tarefas agendadas, configurações de rede
+            e pastas do usuário). O arquivo backup.ok guarda status, data, hora e local.
+  logs\     prisma_AAAAMMDD.log (tudo que o programa fez no dia), limpeza_AAAAMMDD.txt
+            (relatório da limpeza) e limpeza_falhas.txt (arquivos que estavam em uso).
+  state\    applied.lst (quais otimizações estão ativas), journal_*.json (os valores
+            originais salvos antes de cada mudança, usados para desfazer) e
+            needs_reboot.flag (indica reinício pendente).
+  tmp\      arquivos temporários de trabalho do próprio programa.
+  PrismaHub.bat   cópia do programa usada pela reaplicação automática ao ligar o PC.
+
+Tarefa agendada criada pelo programa:  PrismaHub-Reaplicar  (veja a seção 8).
+
+NÃO apague a pasta C:\ProgramData\PrismaHub enquanto houver otimizações ativas: a opção
+DESATIVAR depende dela.
+
+
+==========================================================================================
+5. A TELA PRINCIPAL
+==========================================================================================
+  - Topo: título, logo PRISMA HUB CMD e o slogan "Mais desempenho · Mais liberdade ·
+    Sem limites".
+  - Caixa à direita: seu Sistema Operacional, a versão do programa e seu hardware
+    (CPU, GPU, RAM e tamanho do disco do sistema).
+  - Menu:
+        1  OTIMIZAÇÃO        Ajustes de desempenho, FPS e sistema.
+        2  LIMPAR MEMÓRIA    Remove arquivos temporários e limpa o sistema.
+        3  BACKUP            Cria pontos de restauração e backups.
+        4  TUTORIAIS         Aprende a extrair o máximo do seu PC.
+        5  REDES SOCIAIS     Acesse nossos canais e fique por dentro.
+        6  DESATIVAR         Desativa todas as opções aplicadas no programa.
+        0  SAIR              Encerra o programa.
+  - Todas as telas seguem o mesmo estilo e mostram barras de progresso (0 a 100 por
+    cento) com a etapa atual destacada.
+
+
+==========================================================================================
+6. OPÇÃO 3 - BACKUP (LEIA PRIMEIRO)
+==========================================================================================
+O backup é criado UMA ÚNICA VEZ, antes de qualquer alteração no sistema.
+
+Regra de segurança: sempre que você escolhe OTIMIZAÇÃO ou LIMPAR MEMÓRIA, o programa
+confere se existe um backup válido.
+  - Se não existir: abre direto a página de backup e pede para criar antes de continuar.
+  - Se já existir: mostra "Backup já realizado", com status, data, horário e local, e
+    segue com a operação. Nenhum backup novo é criado.
+  - Se a criação ou a verificação falhar: a otimização ou a limpeza é CANCELADA até o
+    problema ser resolvido.
+
+O que o backup guarda (em 6 etapas com barra de progresso):
+  1. Ponto de restauração do Windows. Se a Proteção do Sistema estiver desligada, o
+     programa a liga para poder criar o ponto. O limite de um ponto por 24 horas é
+     contornado temporariamente.
+  2. Exportação de 24 chaves do registro (área de trabalho e animações, jogos e Game Bar,
+     inicialização, pesquisa, privacidade, anúncios, tema, energia, prioridades
+     multimídia, drivers gráficos, TCP/IP, políticas da Microsoft e outras).
+  3. Lista de serviços e o plano de energia ativo (exportado em arquivo .pow).
+  4. Lista de apps instalados, itens de inicialização, tarefas agendadas e
+     configurações de rede.
+  5. Registro do backup (backup.ok).
+  6. Verificação de integridade (confere se os arquivos essenciais existem).
+
+Observação: o "Desativar" não usa os arquivos .reg. Ele usa um registro próprio que salva
+o valor original de cada item no momento em que é mudado (seção 12). O ponto de
+restauração e os .reg ficam como rede de segurança extra para uma restauração manual.
+
+
+==========================================================================================
+7. OPÇÃO 1 - OTIMIZAÇÃO (DETALHADA)
+==========================================================================================
+FLUXO
+  1. Confere o backup (seção 6).
+  2. Mostra uma tela com tudo que será feito e pergunta [S/N].
+  3. Mede quantos processos existem e quanta RAM está em uso.
+  4. Executa 10 etapas com barra de progresso (5, 15, 25, 35, 45, 55, 65, 72, 80, 87,
+     93, 97 e 100 por cento). Cada etapa mostra, entre colchetes, quantos itens foram
+     alterados.
+  5. Mede de novo e mostra: processos antes > depois, RAM em uso antes > depois.
+  6. Avisa: REINICIE O COMPUTADOR PARA APLICAR TODAS AS OTIMIZAÇÕES. O programa só
+     avisa. Ele nunca reinicia o PC sozinho.
+
+------------------------------------------------------------------------------------------
+ETAPA 1 - Apps nativos, de brinde e de fabricante (feita em 4 partes)
+------------------------------------------------------------------------------------------
+São 72 padrões de nome. Nem todos existem no seu Windows; o que não existe é ignorado.
+  Microsoft e IA:   Copilot, Cortana, Dicas (Getstarted), Obter Ajuda, Hub de Feedback,
+                    Microsoft 365 (Office Hub), Dev Home, Assistência Rápida,
+                    Power Automate, Microsoft Family.
+  Comunicação:      Teams (pessoal), Outlook novo, Email e Calendário, Pessoas, Skype,
+                    Vincular ao Celular (Phone Link), Messaging, LinkedIn.
+  Widgets/Notícias: Widgets (WebExperience), Notícias, Clima, Finanças, Esportes, Bing
+                    Search, Mapas.
+  Xbox:             app Xbox, Console Companion, Game Bar (os dois overlays), Speech To
+                    Text Overlay.
+  Mídia e criação:  Clipchamp, Filmes e TV, Groove Música, Paint 3D, Visualizador 3D,
+                    Print 3D, 3D Builder, Gravador de Voz, Alarmes e Relógio,
+                    Whiteboard, Journal, OneNote, To Do, Sway.
+  Realidade mista:  Portal de Realidade Misturada.
+  Jogos e redes de brinde:  Solitaire Collection, Candy Crush e jogos King, Disney+,
+                    TikTok, Facebook, Instagram, Twitter, Duolingo, Hulu, Prime Video,
+                    Adobe Express.
+  Outros:           Wallet, Mobile Plans (OneConnect), Network Speed Test, Remote Desktop
+                    (app da Store), Advertising Xaml.
+  Fabricante:       HP (Support Assistant, Privacy Settings, Jump Starts, Quick Drop,
+                    Easy Clean, myHP) e Dell (SupportAssist, Digital Delivery,
+                    PartnerPromo).
+
+  - Os apps são removidos para todos os usuários existentes. Eles continuam "provisionados"
+    no Windows, então uma atualização grande pode trazê-los de volta. A reaplicação ao
+    ligar o PC (seção 8) os remove de novo.
+  - NÃO são removidos: Microsoft Store, Calculadora, Fotos, Bloco de Notas, Terminal,
+    Ferramenta de Captura, Configurações, Windows Security, o Xbox Identity Provider e os
+    Serviços de Jogos do Xbox (assim os jogos da Microsoft Store continuam funcionando).
+  - OneDrive: é desinstalado pelo instalador do próprio Windows, SOMENTE se Área de
+    Trabalho, Documentos e Imagens NÃO estiverem sincronizados nele. Se estiverem, ele é
+    mantido, para você não perder a sincronização dos seus arquivos. Seus arquivos locais
+    nunca são apagados.
+
+------------------------------------------------------------------------------------------
+ETAPA 2 - Inicialização, segundo plano e navegadores
+------------------------------------------------------------------------------------------
+  a) Remove entradas de inicialização conhecidas por consumir recursos: OneDrive (só se
+     não for sincronizar suas pastas), Edge AutoLaunch, Teams, Phone Link, Skype, Game
+     Bar, Cortana, Adobe (updaters e CCX), Acrobat Tray, atualizador do Java, iTunes
+     Helper, QuickTime, Outlook/Mail (Hx).
+  b) Desativa (de forma reversível, igual ao Gerenciador de Tarefas > Inicializar) os
+     DEMAIS programas de terceiros que abrem junto com o Windows, como Discord, Steam,
+     Spotify e Epic Games. Eles continuam instalados e funcionam normalmente quando você
+     os abre. Isso é feito apenas na primeira aplicação, não na reaplicação automática.
+     FICAM ATIVOS (lista de proteção): Windows Security, Realtek, Synaptics, ELAN,
+     touchpad e teclas de atalho do fabricante, Intel, NVIDIA, AMD, Bluetooth,
+     antivírus (Avast, AVG, Kaspersky, Norton, McAfee, Bitdefender, ESET, Malwarebytes,
+     Avira, Sophos, Webroot), periféricos (Logitech, Razer, SteelSeries, Corsair, Wacom),
+     gerenciadores de senha (1Password, Bitwarden, LastPass, KeePass), VPN (NordVPN,
+     ProtonVPN, Surfshark, OpenVPN, WireGuard) e nuvem (Dropbox, Google Drive, iCloud,
+     Backblaze, OneDrive).
+  c) Edge: sem execução em segundo plano, sem Startup Boost, sem barra lateral, sem
+     assistente de compras, sem Rewards, sem Follow, sem personalização, sem spotlight e
+     sem conteúdo na nova aba, sem telemetria de diagnóstico. Abas inativas passam a
+     "dormir" após 5 minutos, o que poupa RAM. Também desliga o pré-carregamento legado.
+  d) Chrome (somente se estiver instalado): sem execução em segundo plano e com o
+     modo de economia de memória ligado.
+  e) Apps em segundo plano do Windows: bloqueados por política.
+  f) Widgets/Notícias e Interesses, ícone de Chat/Teams e Copilot: desligados.
+  g) Inicialização Rápida (hiberboot): desligada. Consequência: "Desligar" passa a ser um
+     desligamento completo, e o Windows pode levar alguns segundos a mais para ligar. Em
+     troca, as configurações aplicadas valem de verdade após cada ligada.
+  h) Atraso de inicialização dos apps do Explorer: zerado.
+
+------------------------------------------------------------------------------------------
+ETAPA 3 - Serviços, tarefas agendadas e agrupamento de processos
+------------------------------------------------------------------------------------------
+  - 68 serviços DESATIVADOS (e parados na hora): telemetria (DiagTrack, dmwappushservice),
+    Mapas, modo demonstração, Fax, compartilhamento de mídia (WMP), Registro Remoto,
+    telefonia, diagnósticos (DPS, WdiServiceHost, WdiSystemHost, Diagnostics Hub),
+    relatório de erros (WerSvc), Program Compatibility Assistant, rastreamento de links,
+    geolocalização, controle dos pais, pagamentos NFC, ponto de acesso móvel, Windows
+    Insider, Carteira, AllJoyn, SMS, Plataforma de Dispositivos Conectados (CDP),
+    sincronização de contatos/e-mail, dados do usuário, mensagens, histórico da área de
+    transferência na nuvem, Pesquisa do Windows (indexação), realidade mista, arquivos
+    offline, UPnP, descoberta de topologia, rede ponto a ponto, inventário, desempenho
+    gráfico, transmissão de jogos (BcastDVR), fluxo de impressão, App-V, UE-V, ssh-agent,
+    acesso remoto automático, coletor de eventos, Pastas de Trabalho, driver Ndu (monitor
+    de uso de rede), NetBIOS Helper, e serviços de telemetria/suporte da NVIDIA, HP e
+    Dell (quando existirem).
+  - 9 serviços em modo MANUAL (só iniciam se alguém pedir): AppReadiness, Otimização de
+    Entrega, atualizadores do Edge e do Chrome (e os serviços de elevação deles) e o
+    Adobe Acrobat Update.
+  - Serviços que dependem do seu hardware (só mudam se a condição for verdadeira):
+      * Bluetooth (bthserv, BthAvctpSvc, BTAGService, BluetoothUserService): só se o
+        PC NÃO tiver adaptador Bluetooth.
+      * SysMain (Superfetch) + Prefetch: só se o disco do sistema for SSD.
+      * Servidor (LanmanServer, compartilhamento de arquivos): só se você NÃO tiver
+        nenhuma pasta compartilhada.
+  - Agrupamento de serviços: o Windows costuma criar um processo svchost por serviço.
+    O programa ajusta o limite de agrupamento (SvcHostSplitThresholdInKB) para a sua RAM
+    mais 1 GB. Assim, muitos serviços passam a dividir poucos processos. Esse é o ganho
+    que mais derruba o número de processos, e só vale DEPOIS DE REINICIAR.
+  - Pré-lançamento de apps (ApplicationPreLaunch) do Windows: desligado.
+  - 25 tarefas agendadas de telemetria e diagnóstico desativadas (Compatibility
+    Appraiser, ProgramDataUpdater, StartupAppTask, CEIP, Feedback/Siuf, Error Reporting,
+    DiskDiagnostic, Maps, XblGameSave, NetTrace, Power Efficiency, Family Safety, SQM,
+    SettingSync, Mobile Broadband e outras) e as tarefas de telemetria da NVIDIA (NvTm*).
+  - Serviços e tarefas são desativados por registro; os serviços "desativados" são
+    parados na hora e o efeito completo vem depois de reiniciar.
+  NÃO são mexidos: Windows Defender (WinDefend), Firewall (mpssvc), Central de Segurança
+  (wscsvc), Windows Update (wuauserv, UsoSvc), Spooler de impressão, áudio, rede básica,
+  BITS, criptografia, Windows Hello, notificações e demais serviços essenciais.
+
+------------------------------------------------------------------------------------------
+ETAPA 4 - Telemetria, anúncios, localização e histórico
+------------------------------------------------------------------------------------------
+Desliga ou limita, sempre que o Windows permite:
+  - telemetria (no Windows Home/Pro o valor 0 equivale ao mínimo permitido), notificações
+    de feedback, downloads de configurações da Microsoft (OneSettings), CEIP, build preview;
+  - ID de publicidade e experiências personalizadas;
+  - sugestões, conteúdo patrocinado, instalação automática de apps sugeridos e
+    recomendações do menu Iniciar (17 chaves do ContentDeliveryManager e políticas);
+  - histórico de atividades, histórico e sincronização da área de transferência;
+  - localização, pesquisa na web pelo menu Iniciar, Cortana, pesquisa na nuvem, "Search
+    highlights";
+  - coleta de digitação e escrita à mão, Windows Ink Workspace, fala online;
+  - telemetria de compatibilidade de apps (inventário, gravador de passos);
+  - relatório de erros do Windows e lista de idiomas enviada a sites;
+  - Windows Spotlight na área de trabalho e notificações de "termine de configurar".
+
+------------------------------------------------------------------------------------------
+ETAPA 5 - Animações e efeitos visuais
+------------------------------------------------------------------------------------------
+Aplica o perfil "melhor desempenho": menus sem atraso, janelas sem animação ao minimizar
+e maximizar, sem animações da barra de tarefas, sem sombras e seleção translúcida nas
+listas, sem Aero Peek, sem transparência, e remove da barra os botões Visão de Tarefas,
+Copilot e Cortana. A suavização de fontes (ClearType) e as miniaturas de arquivos
+continuam ligadas. Vale ao sair e entrar na conta, ou ao reiniciar.
+
+------------------------------------------------------------------------------------------
+ETAPA 6 - Energia e CPU (sem overclock)
+------------------------------------------------------------------------------------------
+  - Cria o plano "PRISMA HUB - Desempenho" a partir do Desempenho Máximo (ou do Alto
+    Desempenho, se o primeiro não existir) e o ativa. O plano original é guardado.
+  - Na tomada: estado mínimo e máximo do processador em 100 por cento, boost agressivo,
+    preferência de energia voltada ao desempenho, todos os núcleos ativos, disco que não
+    desliga, suspensão seletiva de USB desligada, economia de energia do PCI Express
+    desligada e Wi-Fi em desempenho máximo.
+  - Refrigeração ativa e proteções térmicas da CPU continuam como estão. Não há
+    overclock, não há aumento de tensão.
+  - Notebook (com bateria): na bateria, o estado mínimo do processador fica em 5 por
+    cento, para não drenar a carga à toa.
+  - "Power Throttling" de apps em segundo plano: desligado.
+  - Windows Defender: as varreduras passam a usar no máximo 20 por cento de CPU e prioridade
+    baixa. A proteção em tempo real continua LIGADA.
+
+------------------------------------------------------------------------------------------
+ETAPA 7 - GPU, mouse e jogos
+------------------------------------------------------------------------------------------
+  - Modo Jogo ligado. Gravação em segundo plano (Game DVR / captura) desligada, inclusive
+    por política. Game Bar sem painel de início. Comportamento de tela cheia ajustado.
+  - Prioridades multimídia (MMCSS) para jogos: sem limite de rede multimídia, resposta do
+    sistema em 10, prioridade de GPU 8, prioridade 6, agendamento "High" e E/S "High".
+  - Agendamento de GPU acelerado por hardware (HAGS): só em NVIDIA ou AMD, e só no Windows
+    10 versão 2004 ou mais nova.
+  - Otimizações para jogos em janela (SwapEffectUpgrade) ligadas.
+  - Mouse sem aceleração ("aprimorar precisão do ponteiro" desligado) e sem o aviso das
+    Teclas de Aderência, Filtro e Alternância, que podem minimizar o jogo.
+  - Placa de vídeo Intel: informa ao Windows mais memória de vídeo dedicada (256, 512 ou
+    1024 MB, conforme a sua RAM). Isso só muda o que é reportado, e ajuda jogos que se
+    recusam a abrir com pouca memória de vídeo. Vale depois de reiniciar.
+  - Notebook com duas placas de vídeo (integrada + dedicada): o programa procura seus
+    jogos (Steam, Epic, Riot, GOG, Xbox, Ubisoft e EA, em qualquer disco fixo; até 80
+    executáveis) e define cada um para usar a GPU dedicada. Em PC com uma só placa, isso
+    não faz nada.
+
+------------------------------------------------------------------------------------------
+ETAPA 8 - Rede e latência
+------------------------------------------------------------------------------------------
+  - Algoritmo de Nagle desligado nas interfaces com IP (TcpAckFrequency e TCPNoDelay),
+    que reduz a espera de pacotes em jogos online.
+  - NetBIOS sobre TCP/IP e LLMNR desligados (menos tráfego de broadcast).
+  - Otimização de Entrega sem compartilhar downloads com outros PCs.
+  - Adaptadores de rede físicos sem "permitir que o computador desligue este dispositivo
+    para economizar energia" e com Energy-Efficient Ethernet / Green Ethernet desligados
+    (quando a placa tem essas opções).
+  - Limpa o cache de DNS.
+  - NÃO troca seu DNS e NÃO mexe no Firewall, em VPN nem em IPv6.
+
+------------------------------------------------------------------------------------------
+ETAPA 9 - Processos, RAM e agendamento
+------------------------------------------------------------------------------------------
+  - Encerra, na hora, processos que não precisam ficar abertos: Widgets, Phone Link,
+    Game Bar, Cortana, Teams, Copilot, Skype, Mail, atualizadores do Google, Edge e
+    Adobe, indexador de pesquisa, telemetria de compatibilidade, tarefas em segundo
+    plano de apps e outros.
+  - O OneDrive só é encerrado se não for sincronizar suas pastas.
+  - Edge e Chrome: só são encerrados se estiverem rodando APENAS em segundo plano, sem
+    nenhuma janela aberta. Se houver uma janela, nada é fechado.
+  - Libera RAM: pede a cada processo que devolva ao sistema a memória que não está usando
+    no momento. Isso derruba o "RAM em uso" na hora, mas parte dessa RAM volta a ser
+    usada quando você abre programas. O ganho que fica vem de ter menos coisas ativas.
+  - Copia o programa para C:\ProgramData\PrismaHub\PrismaHub.bat e cria a tarefa
+    agendada PrismaHub-Reaplicar (seção 8).
+  - Marca que há reinício pendente.
+
+
+==========================================================================================
+8. REAPLICAÇÃO AUTOMÁTICA AO LIGAR O PC
+==========================================================================================
+Ao final da otimização, o programa cria uma tarefa agendada chamada PrismaHub-Reaplicar.
+
+  - Quando roda: 10 segundos depois de você entrar na sua conta do Windows (login). Roda
+    no seu usuário, com privilégios elevados, sem pedir confirmação a cada vez. Ela roda
+    no login, e não antes, porque várias otimizações são configurações do SEU usuário.
+  - O que aparece: uma janela com a mesma interface neon, mostrando cada etapa com barra
+    de progresso, a contagem por etapa e processos e RAM antes e depois. A janela fecha
+    sozinha em 12 segundos (ou na hora, se você apertar S).
+  - O que reaplica: só as otimizações que continuam ativas, e só se o backup for válido.
+    Se você desfez um item na opção 6, ele não volta.
+  - Por que existe: atualizações do Windows podem reativar serviços, tarefas e apps.
+    Reaplicar a cada login mantém tudo no lugar. Jogos instalados depois também são
+    encontrados para a regra de GPU dedicada.
+  - O que NÃO faz na reaplicação: não desativa novos programas da sua inicialização, não
+    desinstala nem encerra o OneDrive e nunca roda a limpeza de arquivos.
+  - Como desativar: opção 6, item 9 (Reaplicar ao ligar o PC).
+  - Se o backup não existir: a janela avisa e nada é aplicado.
+
+
+==========================================================================================
+9. OPÇÃO 2 - LIMPAR MEMÓRIA (LIMPEZA DE DISCO)
+==========================================================================================
+Apesar do nome, essa opção libera espaço em HD ou SSD. Ela não limpa a RAM.
+
+FLUXO
+  1. Confere o backup (seção 6).
+  2. Analisa o sistema e mostra uma lista com cada item que será apagado, o local e o
+     tamanho, mais o TOTAL a liberar.
+  3. Avisa claramente: os arquivos apagados NÃO poderão ser restaurados pelo PRISMA HUB
+     CMD, pois a exclusão não tem reversão garantida.
+  4. Pede confirmação [S/N].
+  5. Pergunta SEPARADAMENTE se você quer esvaziar a Lixeira (apaga de forma definitiva).
+     Se você disser não, a Lixeira é mantida.
+  6. Limpa categoria por categoria, com barra de progresso.
+  7. Mostra um RELATÓRIO: por categoria, arquivos removidos, não excluídos (em uso) e
+     espaço liberado; total; e o espaço livre do disco antes e depois (liberado de fato).
+     O relatório é salvo em logs\limpeza_AAAAMMDD.txt.
+
+O QUE É LIMPO (11 categorias)
+  1. Temporários do usuário (%TEMP%): só arquivos com mais de 24 horas.
+  2. Temporários do Windows (C:\Windows\Temp): só arquivos com mais de 24 horas.
+  3. Cache da Internet do Windows (INetCache).
+  4. Cache de miniaturas e ícones do Explorer.
+  5. Cache do Windows Update (SoftwareDistribution\Download). O serviço de atualização é
+     parado só durante a limpeza e devolvido ao estado em que estava.
+  6. Cache de Otimização de Entrega.
+  7. Relatórios de erro do Windows, CrashDumps e Minidump.
+  8. Cache do Microsoft Edge (Cache, Code Cache e GPUCache de cada perfil).
+  9. Cache do Google Chrome (mesmas pastas).
+ 10. Cache do Firefox (cache2).
+ 11. Lixeira (somente se você confirmar).
+
+O QUE NÃO É TOCADO
+  Documentos, fotos, vídeos, jogos, programas, senhas, cookies e histórico dos navegadores,
+  Windows.old, arquivos de despejo completo (MEMORY.DMP) e caches de shaders de jogos.
+  Feche os navegadores antes: arquivos em uso não podem ser apagados e aparecem como "não
+  excluídos" (listados em limpeza_falhas.txt).
+
+QUANDO USAR: uma vez por mês, ou quando o disco estiver quase cheio.
+QUANDO EVITAR: se houver algo importante na Lixeira, ou durante downloads, instalações e
+o Windows Update.
+
+
+==========================================================================================
+10. OPÇÃO 4 - TUTORIAIS
+==========================================================================================
+Oito páginas, escolhidas por número, com explicações simples, quando usar, benefícios,
+cuidados e quando NÃO usar:
+  1. Primeiros passos e como o programa funciona
+  2. Opção 1 - OTIMIZAÇÃO
+  3. Opção 2 - LIMPAR MEMÓRIA
+  4. Opção 3 - BACKUP
+  5. Opção 6 - DESATIVAR (desfazer alterações)
+  6. Logs: onde ficam e como interpretar
+  7. Dicas de manutenção e desempenho (RAM, inicialização, drivers)
+  8. FPS em jogos: o que é feito e o que fazer por fora
+  0. Voltar ao menu
+
+
+==========================================================================================
+11. OPÇÃO 5 - REDES SOCIAIS
+==========================================================================================
+Mostra os créditos do desenvolvedor:
+  - Desenvolvedor: jonzinhoXD, criador do PRISMA HUB CMD.
+  - TikTok oficial: @surejonn
+  - Tecla 1: abre https://www.tiktok.com/@surejonn no navegador padrão do computador.
+  - Tecla 0: volta ao menu.
+
+
+==========================================================================================
+12. OPÇÃO 6 - DESATIVAR (DESFAZER)
+==========================================================================================
+Mostra uma lista do que o programa aplicou, com o status ATIVA ou "------", e deixa você
+desfazer item por item ou tudo de uma vez.
+
+  Item 1  Apps nativos removidos e OneDrive
+  Item 2  Inicialização automática e segundo plano (inclui Edge, Chrome, Widgets...)
+  Item 3  Serviços e tarefas agendadas desativados (inclui agrupamento de processos)
+  Item 4  Telemetria, anúncios e sugestões
+  Item 5  Animações e efeitos visuais
+  Item 6  Plano de energia e CPU (inclui o limite de CPU nas varreduras do Defender)
+  Item 7  GPU e configurações de jogos (inclui mouse e regras de GPU dedicada)
+  Item 8  Rede e latência
+  Item 9  Reaplicação automática ao ligar o PC (remove a tarefa agendada)
+  Tecla A Desfazer TUDO de uma só vez (na ordem inversa da aplicação)
+  Tecla 0 Voltar ao menu
+
+COMO DESFAZ
+  Antes de mudar qualquer valor, o programa salva o valor original (ou o fato de ele não
+  existir). Ao desfazer, devolve exatamente esses valores: registro, serviços, tarefas
+  agendadas, plano de energia, ajustes de rede, preferências do Defender e a tarefa de
+  reaplicação. Antes de cada reversão ele pede confirmação.
+  Depois de desfazer, REINICIE o computador. Se uma reversão tiver falha, o item continua
+  na lista para você tentar de novo.
+
+LIMITES
+  - Apps removidos: o programa tenta registrar o app de novo a partir dos arquivos do
+    Windows. Se não for possível, avisa quantos precisam ser reinstalados pela Microsoft
+    Store.
+  - OneDrive: volta pelo instalador do próprio Windows.
+  - Arquivos apagados pela limpeza (opção 2) NÃO são restaurados por aqui.
+
+
+==========================================================================================
+13. OPÇÃO 0 - SAIR
+==========================================================================================
+  - Salva os registros e aplica as alterações pendentes que o Windows pode atualizar na
+    hora (parâmetros do usuário e cache de DNS).
+  - Verifica se há reinício pendente: pelo que o próprio programa aplicou ou por atualização
+    do Windows.
+  - Se precisar, mostra: REINICIE O COMPUTADOR PARA APLICAR TODAS AS ALTERAÇÕES. Ele só
+    avisa e nunca reinicia o PC sozinho.
+  - Depois fecha a janela.
+
+
+==========================================================================================
+14. O QUE O PROGRAMA NUNCA ALTERA
+==========================================================================================
+  - Drivers.
+  - Windows Defender (proteção em tempo real, nuvem e atualizações). Só limita o uso de
+    CPU nas varreduras. Não cria exclusões.
+  - Firewall do Windows.
+  - Windows Update (serviços, atualizações de segurança e de drivers).
+  - Isolamento de Núcleo / Integridade de Memória e as mitigações de CPU (Spectre,
+    Meltdown). Desligá-los dá algum FPS em certos jogos, mas abre brechas de segurança.
+    Se você quiser mudar isso, faça nas configurações do Windows, por escolha sua.
+  - Antivírus de terceiros, gerenciadores de senha, VPN e software de periféricos.
+  - Seu DNS, IPv6, BitLocker, contas de usuário e arquivos pessoais.
+  - Microsoft Store, Calculadora, Fotos, Bloco de Notas, Terminal e Configurações.
+  - Serviço de impressão (Spooler), para o "Microsoft Print to PDF" continuar funcionando.
+
+
+==========================================================================================
+15. PROTEÇÕES AUTOMÁTICAS DO PROGRAMA
+==========================================================================================
+  - Backup obrigatório antes de otimizar ou limpar. Se falhar, cancela.
+  - Confirmação [S/N] antes da otimização, da limpeza, da Lixeira e de cada reversão.
+  - OneDrive só sai se não sincronizar suas pastas.
+  - Bluetooth só é desligado se não houver adaptador.
+  - SysMain/Prefetch só são desligados em SSD (em HDD ajudam).
+  - Compartilhamento de arquivos só é desligado se você não tiver pastas compartilhadas.
+  - HAGS só em NVIDIA/AMD recentes. Regra de GPU dedicada só em notebook com duas placas.
+  - Chrome só recebe políticas se estiver instalado.
+  - Notebook: na bateria, o processador volta a poder economizar energia.
+  - A reaplicação não desfaz escolhas suas feitas depois (programas novos na inicialização,
+    OneDrive reinstalado).
+  - Cada operação grava no log o que fez e o que ignorou.
+
+
+==========================================================================================
+16. EFEITOS COLATERAIS QUE VOCÊ PODE NOTAR
+==========================================================================================
+  - A pesquisa de arquivos pelo menu Iniciar fica mais lenta (indexação desligada).
+  - Discord, Steam, Spotify e similares não abrem mais sozinhos. Abra quando precisar.
+  - O compartilhamento de pastas na rede não funciona (se ele foi desligado). Desfaça o
+    item 3 para voltar.
+  - Edge e Chrome podem mostrar "gerenciado pela sua organização". É só o aviso de que há
+    políticas aplicadas (item 2).
+  - Desligar o PC passa a ser desligamento completo (sem Inicialização Rápida).
+  - Serviços agrupados poupam RAM, mas se um serviço travar, outros do mesmo grupo podem
+    ser afetados.
+  - Notebook: o alto desempenho gasta mais bateria. Prefira jogar na tomada.
+  - Se o dispositivo de Bluetooth for ligado depois (adaptador USB novo), ative o serviço
+    desfazendo o item 3.
+  - Apps removidos podem pedir a Microsoft Store para voltar.
+
+
+==========================================================================================
+17. RESULTADOS: O QUE ESPERAR (E O QUE NÃO PROMETO)
+==========================================================================================
+  - A meta do projeto é reduzir muitos processos (na faixa de 60 ou mais), diminuir bastante
+    a RAM em uso e aumentar o FPS. NÃO existe número garantido. Em um Windows já limpo, o
+    ganho é menor. Em um PC cheio de programas de fabricante, é maior.
+  - O programa mostra o número real de processos e de RAM em uso, antes e depois (a RAM em
+    uso é calculada como o Gerenciador de Tarefas: total menos disponível).
+  - O maior corte de processos vem do agrupamento de serviços e só aparece DEPOIS DE
+    REINICIAR. Meça de novo no Gerenciador de Tarefas após reiniciar.
+  - A RAM liberada na hora é parcialmente temporária. Ela volta a subir conforme você abre
+    programas.
+  - O ganho de FPS depende do jogo e do hardware. O que mais ajuda, por ordem: ter RAM
+    sobrando, o PC na tomada, o driver da GPU atualizado, o jogo em SSD, menos programas
+    abertos, temperaturas controladas e ajustar os gráficos do próprio jogo.
+  - Com 8 GB de RAM, o benefício maior é sobrar memória para o jogo.
+
+
+==========================================================================================
+18. LOGS: ONDE FICAM E COMO LER
+==========================================================================================
+Pasta: C:\ProgramData\PrismaHub\logs
+(para abrir: copie o caminho e cole na barra de endereço do Explorador de Arquivos)
+
+  prisma_AAAAMMDD.log   tudo que o programa fez no dia
+  limpeza_AAAAMMDD.txt  relatório da limpeza
+  limpeza_falhas.txt    arquivos que estavam em uso e não puderam ser apagados
+
+Cada linha começa com a hora:  [14:32:10] OPT_SVC: 47/12/-
+  - O NOME é a etapa (OPT_APPS, OPT_START, OPT_SVC, OPT_PRIV, OPT_VISUAL, OPT_POWER,
+    OPT_GAME, OPT_NET, OPT_KILL, CLEAN_xxx, BOOT, BOOTON...).
+  - O primeiro número é o que foi ALTERADO. O segundo é o que foi IGNORADO ou falhou
+    (por exemplo, um serviço que não existe no seu Windows). O terceiro é um detalhe
+    (por exemplo, quantos jogos receberam a GPU dedicada) ou "-".
+  - Em OPT_APPS: removidos / não removidos / situação do OneDrive (REM removido, KEEP
+    mantido, NONE não existe).
+  - Procure as palavras FALHOU, NAO e cancelado: indicam erro, item não removido ou
+    operação cancelada.
+  - Linhas com BOOT mostram o que foi reaplicado ao entrar no Windows.
+
+
+==========================================================================================
+19. SOLUÇÃO DE PROBLEMAS
+==========================================================================================
+P: A janela não abre ou fecha na hora.
+R: Clique com o botão direito no arquivo e escolha "Executar como administrador".
+
+P: Os acentos e as molduras aparecem quebrados.
+R: O arquivo foi salvo em outra codificação (por exemplo, pelo Bloco de Notas). Baixe o
+   arquivo original de novo. Ele deve ficar em OEM 850.
+
+P: O backup falha.
+R: Libere espaço em disco, feche programas, pause temporariamente o antivírus de terceiros e
+   confira se uma política do computador não bloqueia a Proteção do Sistema.
+
+P: Um app sumiu e eu preciso dele.
+R: Opção 6, item 1. Se não voltar, instale pela Microsoft Store.
+
+P: A busca do menu Iniciar está lenta.
+R: Opção 6, item 3 (volta a Pesquisa do Windows).
+
+P: O Bluetooth, o compartilhamento de pastas ou a impressão por rede pararam.
+R: Opção 6, item 3.
+
+P: O Discord ou a Steam não abrem sozinhos.
+R: Opção 6, item 2, ou Gerenciador de Tarefas > Inicializar > Ativar.
+
+P: O programa abre uma janela ao ligar o PC. Como parar?
+R: Opção 6, item 9.
+
+P: Quero reaplicar manualmente.
+R: Rode a opção 1 de novo (ela só ajusta o que faltar) ou reinicie e faça login.
+
+P: Nada mudou nos processos.
+R: Reinicie o PC. O agrupamento de serviços só vale depois disso.
+
+P: Quero desfazer tudo.
+R: Opção 6, tecla A, depois reinicie. Veja também a seção 20.
+
+
+==========================================================================================
+20. COMO REMOVER TUDO
+==========================================================================================
+  1. Abra o programa, escolha a opção 6 e a tecla A (desfazer tudo). Reinicie o PC.
+  2. Depois, se quiser, apague a pasta C:\ProgramData\PrismaHub e o arquivo
+     Prisma-Hub-CMD.bat.
+  3. Para uma restauração manual, use o Windows: digite "Criar um ponto de restauração",
+     abra "Restauração do Sistema" e escolha o ponto "PRISMA HUB - backup inicial".
+     Os arquivos .reg da pasta backup podem ser importados com duplo clique.
+
+
+==========================================================================================
+21. GLOSSÁRIO
+==========================================================================================
+Processo             Programa em execução. O Gerenciador de Tarefas mostra a contagem.
+Serviço              Programa que o Windows roda em segundo plano, sem janela.
+svchost              Processo que hospeda serviços do Windows. Agrupar serviços reduz o
+                     número de svchost.
+Tarefa agendada      Ação que o Windows executa em um horário ou evento (login, por exemplo).
+Política             Regra do Windows gravada no registro. Programas como o Edge a respeitam.
+Telemetria           Envio de dados de uso e diagnóstico para a Microsoft.
+Inicialização        Programas que abrem sozinhos quando você entra no Windows.
+Plano de energia     Conjunto de regras de consumo e desempenho de CPU, disco e rede.
+HAGS                 Agendamento de GPU acelerado por hardware.
+GPU dedicada         Placa de vídeo separada (NVIDIA, AMD). GPU integrada fica na CPU.
+Isolamento de Núcleo Proteção do Windows que usa virtualização. Pode custar FPS em alguns
+                     jogos, mas protege contra ataques ao kernel.
+Backup / ponto de restauração   Cópia das suas configurações antes de mudar.
+Reaplicação          Rodar as otimizações de novo no login, para manter tudo no lugar.
+
+
+==========================================================================================
+22. CRÉDITOS
+==========================================================================================
+PRISMA HUB CMD - v0.1 NOVA
+Desenvolvedor: jonzinhoXD
+TikTok oficial: @surejonn  -  https://www.tiktok.com/@surejonn
+==========================================================================================
